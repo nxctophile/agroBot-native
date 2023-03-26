@@ -1,17 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import ChatBubble from './ChatBubble';
-import {StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView, Alert, Button, View} from 'react-native';
 
 function ResponseContainer(props) {
   const styles = StyleSheet.create({
     ResponseContainer: {
-      margin: 12,
-      marginBottom: 85,
+      marginBottom: 86,
     },
   });
   return (
     <>
-      <ScrollView style={styles.ResponseContainer}>
+      <ScrollView ref={props.ScrollViewRef} style={styles.ResponseContainer}>
         {props.bubbles.map((element, index) => (
           <ChatBubble
             key={index}

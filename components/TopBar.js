@@ -1,7 +1,7 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
-function TopBar() {
+function TopBar(props) {
   const styles = StyleSheet.create({
     viewContainer: {
       width: '100%',
@@ -12,11 +12,11 @@ function TopBar() {
     },
     profilePicContainer: {
       padding: 8,
-      marginTop: 10,
-      marginLeft: 10,
+      marginTop: 12,
+      marginLeft: 12,
       backgroundColor: '#fff',
-      width: 50,
-      height: 50,
+      width: 45,
+      height: 45,
       borderRadius: 50,
     },
     profilePic: {
@@ -25,13 +25,28 @@ function TopBar() {
     },
     agroBotText: {
       fontSize: 20,
-      marginTop: 18,
+      marginTop: 19,
       marginLeft: 12,
+      fontWeight: 'bold',
     },
     betaFlag: {
       fontSize: 10,
-      marginTop: 28,
-      marginLeft: 5,
+      marginTop: 29,
+      marginLeft: 4,
+    },
+    deleteButton: {
+      height: '100%',
+      width: '100%',
+    },
+    deleteButtonContainer: {
+      height: 40,
+      width: 40,
+      padding: 6,
+      backgroundColor: '#eee',
+      borderRadius: 50,
+      position: 'absolute',
+      top: 15,
+      right: 15,
     },
   });
   return (
@@ -44,6 +59,14 @@ function TopBar() {
       </View>
       <Text style={styles.agroBotText}>{'agroBot'}</Text>
       <Text style={styles.betaFlag}>{'beta'}</Text>
+      <View style={styles.deleteButtonContainer}>
+        <Pressable style={styles.buttonStyling} onPress={props.clearChat}>
+          <Image
+            source={{uri: 'https://i.ibb.co/YLtfm2F/delete.png'}}
+            style={styles.deleteButton}
+          />
+        </Pressable>
+      </View>
     </View>
   );
 }

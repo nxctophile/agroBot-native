@@ -14,25 +14,25 @@ function BottomBar(props) {
   const textRef = useRef(null);
   const styles = StyleSheet.create({
     textBox: {
-      width: '80%',
+      width: '90%',
       height: 45,
       borderColor: 'gray',
       borderWidth: 1,
       backgroundColor: '#CAD2C5',
       borderRadius: 30,
       padding: 10,
-      marginLeft: 15,
       color: '#000',
       fontSize: 20,
       paddingLeft: 15,
     },
     buttonStyling: {
-      backgroundColor: '#fff',
+      backgroundColor: '#e1e1e1',
       width: 40,
       height: 40,
       padding: 10,
-      borderRadius: 50,
+      borderRadius: 12,
       marginLeft: 10,
+      // shadow
     },
     sendImage: {
       width: '100%',
@@ -57,7 +57,12 @@ function BottomBar(props) {
         ref={textRef}
         style={styles.textBox}
         value={text}
+        placeholder={'Type a message or query...'}
+        placeholderTextColor={'#a8a8a8'}
         onChangeText={setText}
+        onSubmitEditing={() => {
+          return props.setClient(text, textRef);
+        }}
       />
       <Pressable
         style={styles.buttonStyling}

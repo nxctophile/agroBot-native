@@ -20,7 +20,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     maxWidth: '80%',
-    marginBottom: 10,
+    marginTop: 15,
+    marginBottom: 6,
+    marginLeft: 15,
+    marginRight: 15,
   },
   message: {
     fontSize: 16,
