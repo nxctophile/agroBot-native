@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { Alert, StyleSheet, View } from "react-native";
+import {Alert, StyleSheet, View} from 'react-native';
 import TopBar from './TopBar';
 import BottomBar from './BottomBar';
 import ChatBubble from './ChatBubble';
@@ -34,7 +34,7 @@ function MainComponent() {
         },
       ],
       {cancelable: false},
-    )
+    );
   };
   const handleOk = () => {
     setBubbles([]);
