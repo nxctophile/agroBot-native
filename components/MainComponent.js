@@ -6,6 +6,7 @@ import ResponseContainer from './ResponseContainer';
 import Voice from '@react-native-voice/voice';
 import Tts from 'react-native-tts';
 
+
 import {PermissionsAndroid} from 'react-native';
 
 function MainComponent() {
@@ -58,6 +59,7 @@ function MainComponent() {
   };
 
   const startRecording = async () => {
+    Tts.stop();
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
@@ -89,19 +91,20 @@ function MainComponent() {
     }
   };
 
-  // const stopRecording = async () => {
-  //   try {
-  //     await Voice.stop();
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
+  const stopRecording = async () => {
+    try {
+      await Voice.stop();
+    } catch (e) {
+      console.error(e);
+    }
+    setIsRecognizing(false);
+  };
 
   const styles = StyleSheet.create({
     viewContainer: {
       width: '100%',
       height: '100%',
-      backgroundColor: '#92BB9B',
+      backgroundColor: '#8AAF9E',
     },
   });
 
@@ -160,7 +163,7 @@ function MainComponent() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer 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`,
         },
         body: JSON.stringify({
           messages: bubbles,
@@ -179,7 +182,7 @@ function MainComponent() {
               content: data.choices[0].message.content,
             },
           ]);
-          // speak(data.choices[0].message.content);
+          speak(data.choices[0].message.content);
 
           ScrollViewRef.current.scrollToEnd({animated: true});
         })
@@ -206,6 +209,8 @@ function MainComponent() {
         text={text}
         setText={setText}
         canRecord={canRecord}
+        isRecognizing={isRecognizing}
+        stopRecording={stopRecording}
       />
     </View>
   );

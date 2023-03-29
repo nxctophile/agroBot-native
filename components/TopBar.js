@@ -1,14 +1,17 @@
 import React from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+const deleteImage = require('../assets/delete.png');
+const icon = require('../assets/sprout.png');
 
 function TopBar(props) {
   const styles = StyleSheet.create({
     viewContainer: {
       width: '100%',
       height: 68.9,
-      backgroundColor: '#6A9373',
+      backgroundColor: '#3F7E63',
       display: 'flex',
       flexDirection: 'row',
+      elevation: 7,
     },
     profilePicContainer: {
       padding: 8,
@@ -24,14 +27,14 @@ function TopBar(props) {
       width: '100%',
     },
     agroBotText: {
-      fontSize: 20,
-      marginTop: 19,
+      fontSize: 22,
+      marginTop: 20,
       marginLeft: 12,
       fontWeight: 'bold',
     },
     betaFlag: {
       fontSize: 10,
-      marginTop: 29,
+      marginTop: 32,
       marginLeft: 4,
     },
     deleteButton: {
@@ -53,7 +56,7 @@ function TopBar(props) {
     <View style={styles.viewContainer}>
       <View style={styles.profilePicContainer}>
         <Image
-          source={{uri: 'https://i.ibb.co/LnLNDPt/sprout.png'}}
+          source={icon}
           style={styles.profilePic}
         />
       </View>
@@ -62,7 +65,7 @@ function TopBar(props) {
       <View style={styles.deleteButtonContainer}>
         <Pressable style={styles.buttonStyling} onPress={props.clearChat}>
           <Image
-            source={{uri: 'https://i.ibb.co/YLtfm2F/delete.png'}}
+            source={deleteImage}
             style={styles.deleteButton}
           />
         </Pressable>
