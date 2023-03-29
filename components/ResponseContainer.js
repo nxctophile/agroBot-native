@@ -14,8 +14,8 @@ function ResponseContainer(props) {
         {props.bubbles.map((element, index) => (
           <ChatBubble
             key={index}
-            bubble={element.response}
-            isClientSide={element.isClientSide}
+            bubble={element.content}
+            role={element.role}
           />
         ))}
       </ScrollView>

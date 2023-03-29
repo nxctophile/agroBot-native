@@ -5,10 +5,13 @@ const ChatBubble = props => {
     <View
       style={[
         styles.bubble,
-        props.isClientSide ? styles.myMessage : styles.theirMessage,
+        props.role === 'user' ? styles.myMessage : styles.theirMessage,
       ]}>
       <Text
-        style={[styles.message, {color: props.isClientSide ? '#000' : '#fff'}]}>
+        style={[
+          styles.message,
+          {color: props.role === 'user' ? '#000' : '#fff'},
+        ]}>
         {props.bubble}
       </Text>
     </View>

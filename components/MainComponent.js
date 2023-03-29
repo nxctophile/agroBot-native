@@ -132,24 +132,29 @@ function MainComponent() {
     setShowDeleteDialog(false);
   };
 
-  const setClient = async (message, textBox) => {
+  const setClient = (message, textBox) => {
     setCanRecord(true);
     if (message !== '') {
       textBox.current.clear();
       setBubbles(prevBubbles => [
         ...prevBubbles,
         {
-          isClientSide: true,
-          response: message,
+          role: 'user',
+          content: message,
         },
       ]);
       ScrollViewRef.current.scrollToEnd({animated: true});
+    }
+  };
 
-      const prompt = message.toLowerCase();
+  useEffect(() => {
+    if (bubbles.length > 0 && bubbles.length % 2 !== 0) {
       const model = 'gpt-3.5-turbo';
-      const maxTokens = 200;
+      const maxTokens = 500;
       const temperature = 0.7;
       const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+
+      console.log('Bubbles are: ', bubbles);
 
       fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -158,15 +163,10 @@ function MainComponent() {
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          messages: [
-            {
-              role: 'user',
-              content: prompt,
-            },
-          ],
+          messages: bubbles,
           model,
           max_tokens: maxTokens,
-          temperature,
+          temperature: 0.7,
         }),
       })
         .then(response => response.json())
@@ -175,17 +175,17 @@ function MainComponent() {
           setBubbles(prevBubbles => [
             ...prevBubbles,
             {
-              isClientSide: false,
-              response: data.choices[0].message.content,
+              role: 'assistant',
+              content: data.choices[0].message.content,
             },
           ]);
-          speak(data.choices[0].message.content);
+          // speak(data.choices[0].message.content);
 
           ScrollViewRef.current.scrollToEnd({animated: true});
         })
         .catch(error => console.log(error));
     }
-  };
+  }, [bubbles]);
 
   return (
     <View style={styles.viewContainer}>

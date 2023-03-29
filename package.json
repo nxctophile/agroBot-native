@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.18.1",
     "@react-native-voice/voice": "^3.2.4",
     "axios": "^0.21.4",
     "openai": "^3.2.1",

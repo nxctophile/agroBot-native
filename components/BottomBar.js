@@ -60,9 +60,7 @@ function BottomBar(props) {
         placeholder={'Type a message or query...'}
         placeholderTextColor={'#a8a8a8'}
         onChangeText={props.changeButton}
-        onSubmitEditing={() => {
-          return props.setClient(props.text, props.textRef);
-        }}
+        onSubmitEditing={() => props.setClient(props.text, props.textRef)}
       />
       <Pressable
         style={styles.buttonStyling}
