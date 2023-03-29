@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react';
 import ChatBubble from './ChatBubble';
-import {StyleSheet, ScrollView, Alert, Button, View} from 'react-native';
+import {StyleSheet, ScrollView, Alert, Button, View, Text} from 'react-native';
 
 function ResponseContainer(props) {
   const styles = StyleSheet.create({

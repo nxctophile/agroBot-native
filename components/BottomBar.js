@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 
 function BottomBar(props) {
-  const [text, setText] = useState('');
-  const textRef = useRef(null);
   const styles = StyleSheet.create({
     textBox: {
       width: '90%',
@@ -51,26 +49,36 @@ function BottomBar(props) {
     },
   });
 
+
+
   return (
     <View style={styles.bottomBarContainer}>
       <TextInput
-        ref={textRef}
+        ref={props.textRef}
         style={styles.textBox}
-        value={text}
+        value={props.text}
         placeholder={'Type a message or query...'}
         placeholderTextColor={'#a8a8a8'}
-        onChangeText={setText}
+        onChangeText={props.changeButton}
         onSubmitEditing={() => {
-          return props.setClient(text, textRef);
+          return props.setClient(props.text, props.textRef);
         }}
       />
       <Pressable
         style={styles.buttonStyling}
         onPress={() => {
-          return props.setClient(text, textRef);
+          if (props.canRecord) {
+            return props.startRecording();
+          } else {
+            return props.setClient(props.text, props.textRef);
+          }
         }}>
         <Image
-          source={{uri: 'https://i.ibb.co/J5Z83YC/send.png'}}
+          source={{
+            uri: props.canRecord
+              ? 'https://i.ibb.co/JrHqVS8/microphone.png'
+              : 'https://i.ibb.co/J5Z83YC/send.png',
+          }}
           style={styles.sendImage}
         />
       </Pressable>
