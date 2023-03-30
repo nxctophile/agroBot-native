@@ -1,11 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {Alert, Button, StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import TopBar from './TopBar';
 import BottomBar from './BottomBar';
 import ResponseContainer from './ResponseContainer';
 import Voice from '@react-native-voice/voice';
 import Tts from 'react-native-tts';
-
 
 import {PermissionsAndroid} from 'react-native';
 
@@ -14,10 +13,11 @@ function MainComponent() {
   const [bubbles, setBubbles] = useState([]);
   const [isRecognizing, setIsRecognizing] = useState(false);
   const ScrollViewRef = useRef(null);
-  const ImageRef = useRef(null);
   const textRef = useRef(null);
   const [text, setText] = useState('');
   const [canRecord, setCanRecord] = useState(true);
+  const [responseLoading, setResponseLoading] = useState(false);
+  const [messageState, setMessageState] = useState('');
 
   const changeButton = txt => {
     setText(txt);
@@ -146,47 +146,93 @@ function MainComponent() {
           content: message,
         },
       ]);
+      setMessageState(message);
       ScrollViewRef.current.scrollToEnd({animated: true});
     }
   };
 
   useEffect(() => {
+    const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
     if (bubbles.length > 0 && bubbles.length % 2 !== 0) {
-      const model = 'gpt-3.5-turbo';
-      const maxTokens = 500;
-      const temperature = 0.7;
-      const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
-
-      console.log('Bubbles are: ', bubbles);
-
-      fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer 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`,
-        },
-        body: JSON.stringify({
-          messages: bubbles,
-          model,
-          max_tokens: maxTokens,
-          temperature: 0.7,
-        }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Data is: ', data);
-          setBubbles(prevBubbles => [
-            ...prevBubbles,
-            {
-              role: 'assistant',
-              content: data.choices[0].message.content,
-            },
-          ]);
-          speak(data.choices[0].message.content);
-
-          ScrollViewRef.current.scrollToEnd({animated: true});
+      if (
+        messageState.toLowerCase().includes('generate') &&
+        messageState.toLowerCase().includes('image')
+      ) {
+        const imageInput = messageState.toLowerCase().split('generate');
+        setResponseLoading(true);
+        fetch('https://api.openai.com/v1/images/generations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            prompt: imageInput[1],
+            size: '256x256',
+          }),
         })
-        .catch(error => console.log(error));
+          .then(response => response.json())
+          .then(data => {
+            console.log(data.data[0].url);
+            setBubbles(prevBubbles => [
+              ...prevBubbles,
+              {
+                role: 'assistant',
+                content: `Here's your image for the entered query -${imageInput[1]}`,
+                imageUrl: data.data[0].url,
+              },
+            ]);
+            speak(`Here's your image for the entered query -${imageInput[1]}`);
+            setResponseLoading(false);
+            ScrollViewRef.current.scrollToEnd({animated: true});
+          })
+          .catch(error => console.log(error));
+      } else {
+        const model = 'gpt-3.5-turbo';
+        const maxTokens = 500;
+        const temperature = 0.7;
+
+        console.log('Bubbles are: ', bubbles);
+        setResponseLoading(true);
+
+        const bubbleFilter = bubbles.map(obj =>
+          Object.keys(obj).reduce((acc, key) => {
+            if (!'imageUrl'.includes(key)) {
+              acc[key] = obj[key];
+            }
+            return acc;
+          }, {}),
+        );
+
+        fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            messages: bubbleFilter,
+            model,
+            max_tokens: maxTokens,
+            temperature: temperature,
+          }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Data is: ', data);
+            setBubbles(prevBubbles => [
+              ...prevBubbles,
+              {
+                role: 'assistant',
+                content: data.choices[0].message.content,
+              },
+            ]);
+            speak(data.choices[0].message.content);
+            setResponseLoading(false);
+            ScrollViewRef.current.scrollToEnd({animated: true});
+          })
+          .catch(error => console.log(error));
+      }
     }
   }, [bubbles]);
 
@@ -200,6 +246,7 @@ function MainComponent() {
         setShowDeleteDialog={setShowDeleteDialog}
         ScrollViewRef={ScrollViewRef}
         bubbles={bubbles}
+        responseLoading={responseLoading}
       />
       <BottomBar
         setClient={setClient}

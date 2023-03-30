@@ -1,8 +1,7 @@
-import React, {useState, useRef} from 'react';
+import React from 'react';
 import {
   TextInput,
   StyleSheet,
-  Button,
   Pressable,
   Text,
   Image,
@@ -81,6 +80,9 @@ function BottomBar(props) {
     animateStyle: {
       width: '80%',
     },
+    stopText: {
+      color: '#000',
+    },
   });
 
   return (
@@ -127,7 +129,7 @@ function BottomBar(props) {
             easing={'ease-in-out'}
             useNativeDriver={true}>
             <View style={styles.stopContainer}>
-              <Text style={{color: '#000'}}>Stop Recognizing</Text>
+              <Text style={styles.stopText}>Stop Recognizing</Text>
               <Image source={stopImage} style={styles.stopImage} />
             </View>
           </Animatable.View>

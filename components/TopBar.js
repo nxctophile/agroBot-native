@@ -30,7 +30,7 @@ function TopBar(props) {
       fontSize: 22,
       marginTop: 20,
       marginLeft: 12,
-      fontWeight: 'bold',
+      fontWeight: 'light',
     },
     betaFlag: {
       fontSize: 10,
