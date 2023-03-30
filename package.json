@@ -23,6 +23,7 @@
     "react-native-fast-image": "^8.6.3",
     "react-native-fs": "^2.20.0",
     "react-native-geolocation": "^1.0.0",
+    "react-native-splash-screen": "^3.3.0",
     "react-native-system-setting": "^1.7.6",
     "react-native-tts": "^4.1.0"
   },
