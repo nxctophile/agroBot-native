@@ -1,73 +1,67 @@
 import React from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-const deleteImage = require('../assets/delete.png');
-const icon = require('../assets/sprout.png');
+const menu = require('../assets/menu.png');
+const settings = require('../assets/settings.png');
+import LinearGradient from 'react-native-linear-gradient';
 
 function TopBar(props) {
   const styles = StyleSheet.create({
     viewContainer: {
       width: '100%',
-      height: 68.9,
-      backgroundColor: '#3F7E63',
+      height: '100%',
       display: 'flex',
       flexDirection: 'row',
-      elevation: 7,
     },
-    profilePicContainer: {
+    settingsButtonContainer: {
       padding: 8,
-      marginTop: 12,
+      marginTop: 18,
       marginLeft: 12,
-      backgroundColor: '#fff',
-      width: 45,
-      height: 45,
-      borderRadius: 50,
+      width: 43,
+      height: 43,
     },
-    profilePic: {
+    settingsButton: {
       height: '100%',
       width: '100%',
     },
     agroBotText: {
       fontSize: 22,
-      marginTop: 20,
-      marginLeft: 12,
       fontWeight: 'light',
     },
-    betaFlag: {
-      fontSize: 10,
-      marginTop: 32,
-      marginLeft: 4,
+    topTextContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '72%',
+      marginBottom: 4,
     },
-    deleteButton: {
+    betaFlag: {
+      fontSize: 8,
+    },
+    menuButton: {
       height: '100%',
       width: '100%',
     },
-    deleteButtonContainer: {
-      height: 40,
-      width: 40,
+    menuButtonContainer: {
+      height: 35,
+      width: 35,
       padding: 6,
-      backgroundColor: '#eee',
-      borderRadius: 50,
       position: 'absolute',
-      top: 15,
-      right: 15,
+      top: 22,
+      right: 16,
     },
   });
   return (
     <View style={styles.viewContainer}>
-      <View style={styles.profilePicContainer}>
-        <Image
-          source={icon}
-          style={styles.profilePic}
-        />
+      <View style={styles.settingsButtonContainer}>
+        <Image source={settings} style={styles.settingsButton} />
       </View>
-      <Text style={styles.agroBotText}>{'agroBot'}</Text>
-      <Text style={styles.betaFlag}>{'beta'}</Text>
-      <View style={styles.deleteButtonContainer}>
+      <View style={styles.topTextContainer}>
+        <Text style={styles.agroBotText}>{'agroBot'}</Text>
+        <Text style={styles.betaFlag}>{'v1.1.2-beta'}</Text>
+      </View>
+      <View style={styles.menuButtonContainer}>
         <Pressable style={styles.buttonStyling} onPress={props.clearChat}>
-          <Image
-            source={deleteImage}
-            style={styles.deleteButton}
-          />
+          <Image source={menu} style={styles.menuButton} />
         </Pressable>
       </View>
     </View>

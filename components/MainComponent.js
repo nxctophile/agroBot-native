@@ -5,6 +5,7 @@ import BottomBar from './BottomBar';
 import ResponseContainer from './ResponseContainer';
 import Voice from '@react-native-voice/voice';
 import Tts from 'react-native-tts';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {PermissionsAndroid} from 'react-native';
 
@@ -100,13 +101,6 @@ function MainComponent() {
     setIsRecognizing(false);
   };
 
-  const styles = StyleSheet.create({
-    viewContainer: {
-      width: '100%',
-      height: '100%',
-      backgroundColor: '#8AAF9E',
-    },
-  });
 
   const clearChat = () => {
     Alert.alert(
@@ -236,29 +230,57 @@ function MainComponent() {
     }
   }, [bubbles]);
 
+  const styles = StyleSheet.create({
+    viewContainer: {
+      width: '100%',
+      height: '100%',
+      backgroundColor: '#222',
+    },
+    linearGradient: {
+      flex: 1,
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      // borderBottomLeftRadius: 32,
+      // borderBottomRightRadius: 32,
+    },
+  });
+
   return (
     <View style={styles.viewContainer}>
+      <LinearGradient
+        colors={['#70A151', '#000']}
+        style={styles.linearGradient}
+        start={{x: 0.9, y: 0}}
+        end={{x: 1, y: 0.1}}
+        useViewFrame={true}
+      />
       <TopBar clearChat={clearChat} />
-      <ResponseContainer
-        handleOk={handleOk}
-        handleCancel={handleCancel}
-        showDeleteDialog={showDeleteDialog}
-        setShowDeleteDialog={setShowDeleteDialog}
-        ScrollViewRef={ScrollViewRef}
-        bubbles={bubbles}
-        responseLoading={responseLoading}
-      />
-      <BottomBar
-        setClient={setClient}
-        startRecording={startRecording}
-        textRef={textRef}
-        changeButton={changeButton}
-        text={text}
-        setText={setText}
-        canRecord={canRecord}
-        isRecognizing={isRecognizing}
-        stopRecording={stopRecording}
-      />
+      <View style={styles.contentContainer}>
+        <ResponseContainer
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+          showDeleteDialog={showDeleteDialog}
+          setShowDeleteDialog={setShowDeleteDialog}
+          ScrollViewRef={ScrollViewRef}
+          bubbles={bubbles}
+          responseLoading={responseLoading}
+        />
+        <BottomBar
+          setClient={setClient}
+          startRecording={startRecording}
+          textRef={textRef}
+          changeButton={changeButton}
+          text={text}
+          setText={setText}
+          canRecord={canRecord}
+          isRecognizing={isRecognizing}
+          stopRecording={stopRecording}
+        />
+      </View>
     </View>
   );
 }

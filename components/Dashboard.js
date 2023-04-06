@@ -36,7 +36,7 @@ function Dashboard() {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#3F7E63',
+      // backgroundColor: '#3F7E63',
       paddingTop: 12,
       paddingBottom: 12,
       padding: 15,

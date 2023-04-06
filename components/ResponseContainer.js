@@ -10,7 +10,9 @@ const loading = require('../assets/typing.gif');
 function ResponseContainer(props) {
   const styles = StyleSheet.create({
     ResponseContainer: {
-      marginBottom: 64,
+      borderTopLeftRadius: 32,
+      borderTopRightRadius: 32,
+      backgroundColor: '#111',
     },
     recognitionImage: {
       height: 30,
