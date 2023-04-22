@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {Alert, StyleSheet, View} from 'react-native';
+import {Alert, Dimensions, Keyboard, StyleSheet, View} from 'react-native';
 import TopBar from './TopBar';
 import BottomBar from './BottomBar';
 import ResponseContainer from './ResponseContainer';
@@ -19,6 +19,7 @@ function MainComponent() {
   const [canRecord, setCanRecord] = useState(true);
   const [responseLoading, setResponseLoading] = useState(false);
   const [messageState, setMessageState] = useState('');
+  const [voiceInit, setVoiceInit] = useState(false);
 
   const changeButton = txt => {
     setText(txt);
@@ -32,7 +33,7 @@ function MainComponent() {
   useEffect(() => {
     Tts.setDefaultLanguage('en-US');
     Tts.setDefaultRate(0.5);
-    Tts.setDefaultPitch(1.5);
+    Tts.setDefaultPitch(1);
   }, []);
 
   const speak = text => {
@@ -46,6 +47,7 @@ function MainComponent() {
 
   Voice.onSpeechEnd = () => {
     setIsRecognizing(false);
+    setVoiceInit(true);
   };
 
   Voice.onSpeechResults = result => {
@@ -101,7 +103,6 @@ function MainComponent() {
     setIsRecognizing(false);
   };
 
-
   const clearChat = () => {
     Alert.alert(
       'Delete all messages',
@@ -141,6 +142,7 @@ function MainComponent() {
         },
       ]);
       setMessageState(message);
+      setVoiceInit(false);
       ScrollViewRef.current.scrollToEnd({animated: true});
     }
   };
@@ -176,7 +178,11 @@ function MainComponent() {
                 imageUrl: data.data[0].url,
               },
             ]);
-            speak(`Here's your image for the entered query -${imageInput[1]}`);
+            if (voiceInit) {
+              speak(
+                `Here's your image for the entered query -${imageInput[1]}`,
+              );
+            }
             setResponseLoading(false);
             ScrollViewRef.current.scrollToEnd({animated: true});
           })
@@ -221,7 +227,9 @@ function MainComponent() {
                 content: data.choices[0].message.content,
               },
             ]);
-            speak(data.choices[0].message.content);
+            if (voiceInit) {
+              speak(data.choices[0].message.content);
+            }
             setResponseLoading(false);
             ScrollViewRef.current.scrollToEnd({animated: true});
           })
@@ -229,35 +237,40 @@ function MainComponent() {
       }
     }
   }, [bubbles]);
+  const [containerHeight, setContainerHeight] = useState('91%');
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      event => {
+        setContainerHeight('86%');
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setContainerHeight('91%'); // set back to original height
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   const styles = StyleSheet.create({
     viewContainer: {
       width: '100%',
       height: '100%',
-      backgroundColor: '#222',
+      backgroundColor: '#00080C',
     },
-    linearGradient: {
-      flex: 1,
-      position: 'absolute',
-      top: 0,
-      right: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      // borderBottomLeftRadius: 32,
-      // borderBottomRightRadius: 32,
+    contentContainer: {
+      height: containerHeight,
     },
   });
 
   return (
     <View style={styles.viewContainer}>
-      <LinearGradient
-        colors={['#70A151', '#000']}
-        style={styles.linearGradient}
-        start={{x: 0.9, y: 0}}
-        end={{x: 1, y: 0.1}}
-        useViewFrame={true}
-      />
       <TopBar clearChat={clearChat} />
       <View style={styles.contentContainer}>
         <ResponseContainer

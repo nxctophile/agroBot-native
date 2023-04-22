@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import {Text, StyleSheet, View, Image} from 'react-native';
 import FastImage from 'react-native-fast-image';
 const bot = require('../assets/bot.gif');
+const news = require('../assets/news.png');
 
 function Dashboard() {
   const [greetingText, setGreetingText] = useState('Hey there!');
@@ -25,54 +26,100 @@ function Dashboard() {
       height: '100%',
       width: '100%',
       display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
     greetingText: {
       color: '#fff',
       fontSize: 25,
     },
     greetingTextContainer: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      // backgroundColor: '#3F7E63',
       paddingTop: 12,
       paddingBottom: 12,
       padding: 15,
       borderRadius: 17,
-      marginTop: 30,
-      marginBottom: 30,
-      elevation: 7,
+      marginTop: 22,
+      marginLeft: 16,
+      marginBottom: 12,
     },
     bot: {
       height: '100%',
       width: '100%',
     },
     imageView: {
-      height: 220,
-      width: 290,
-      borderRadius: 30,
-      borderBottomLeftRadius: 0,
-      overflow: 'hidden',
+      height: 200,
+      width: 200,
+      position: 'absolute',
+      top: -15,
+      right: -30,
     },
     Tooltip: {
       fontSize: 17,
-      color: '#000',
+      color: '#b9c4c9',
       textAlign: 'center',
     },
     TooltipContainer: {
-      backgroundColor: '#a7ccb9',
+      borderStyle: 'solid',
+      borderWidth: 1,
+      borderColor: '#75A658',
       padding: 12,
       paddingTop: 15,
       paddingBottom: 15,
-      borderRadius: 15,
-      borderBottomRightRadius: 0,
+      borderRadius: 25,
+      borderBottomLeftRadius: 0,
       marginTop: 20,
     },
     TooltipContainerBox: {
-      marginTop: 10,
+      marginTop: 30,
       width: '80%',
+    },
+    TipContainer: {
+      // marginLeft: 20,
+      display: 'flex',
+      width: '100%',
+      alignItems: 'center',
+    },
+    greetBubbleContainer: {
+      alignSelf: 'flex-start',
+      marginLeft: 24,
+    },
+    greetBubble: {
+      borderStyle: 'solid',
+      borderWidth: 1,
+      borderColor: '#75A658',
+      fontSize: 14,
+      padding: 10,
+      borderRadius: 20,
+      borderBottomRightRadius: 0,
+    },
+    headlineText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    headlineTextContainer: {
+      marginTop: 30,
+      marginLeft: 30,
+    },
+    newsContainer: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginLeft: -20,
+    },
+    newsFeed: {
+      height: 100,
+      width: 170,
+      backgroundColor: '#333',
+      marginLeft: 20,
+      borderRadius: 10,
+      overflow: 'hidden',
+    },
+    newsRow: {
+      flexDirection: 'row',
+      padding: 20,
+    },
+    newsImg: {
+      height: '100%',
+      width: '100%',
     },
   });
 
@@ -81,6 +128,9 @@ function Dashboard() {
       <View style={styles.greetingTextContainer}>
         <Text style={styles.greetingText}>{greetingText}</Text>
       </View>
+      <View style={styles.greetBubbleContainer}>
+        <Text style={styles.greetBubble}>Hi there, how can I help you?</Text>
+      </View>
       <View style={styles.imageView}>
         <FastImage
           source={bot}
@@ -88,24 +138,51 @@ function Dashboard() {
           resizeMode={FastImage.resizeMode.contain}
         />
       </View>
-      <View style={styles.TooltipContainerBox}>
-        <View style={styles.TooltipContainer}>
-          <Text style={styles.Tooltip}>
-            Major limitation 😵‍💫 - (As of now) {'\n'}
-            Can't generate latest data for the events that have occurred after
-            2021.
-          </Text>
+      <View>
+        <View style={styles.headlineTextContainer}>
+          <Text style={styles.headlineText}>Top Headlines</Text>
         </View>
-        <View style={styles.TooltipContainer}>
-          <Text style={styles.Tooltip}>
-            Get Started 👻 - {'\n'}Begin With: "Namaste!" or "Which season is
-            suitable for wheat crops?"
-          </Text>
-        </View>
-        <View style={styles.TooltipContainer}>
-          <Text style={styles.Tooltip}>
-            Voice recognition ✨ - {'\n'}Tap on the mic button to start!
-          </Text>
+        <View style={styles.newsContainer}>
+          <View style={styles.newsRow}>
+            <View style={styles.newsFeed}>
+              <Image style={styles.newsImg} source={news} />
+            </View>
+            <View style={styles.newsFeed}>
+              <Image style={styles.newsImg} source={news} />
+            </View>
+          </View>
+          <View style={styles.newsRow}>
+            <View style={styles.newsFeed}>
+              <Image style={styles.newsImg} source={news} />
+            </View>
+            <View style={styles.newsFeed}>
+              <Image style={styles.newsImg} source={news} />
+            </View>
+          </View>
+          <View style={styles.newsRow}>
+            <View style={styles.newsFeed}>
+              <Image style={styles.newsImg} source={news} />
+            </View>
+            <View style={styles.newsFeed}>
+              <Image style={styles.newsImg} source={news} />
+            </View>
+          </View>
+          <View style={styles.newsRow}>
+            <View style={styles.newsFeed}>
+              <Image style={styles.newsImg} source={news} />
+            </View>
+            <View style={styles.newsFeed}>
+              <Image style={styles.newsImg} source={news} />
+            </View>
+          </View>
+          <View style={styles.newsRow}>
+            <View style={styles.newsFeed}>
+              <Image style={styles.newsImg} source={news} />
+            </View>
+            <View style={styles.newsFeed}>
+              <Image style={styles.newsImg} source={news} />
+            </View>
+          </View>
         </View>
       </View>
     </View>

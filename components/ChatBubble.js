@@ -10,7 +10,7 @@ const ChatBubble = props => {
       <Text
         style={[
           styles.message,
-          {color: props.role === 'user' ? '#000' : '#fff'},
+          {color: props.role === 'user' ? '#000' : '#dee6ea'},
         ]}>
         {props.bubble}
       </Text>
@@ -32,12 +32,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   myMessage: {
-    backgroundColor: '#a4d0ba',
+    backgroundColor: '#75A658',
     alignSelf: 'flex-end',
     borderBottomRightRadius: 0,
   },
   theirMessage: {
-    backgroundColor: '#3F7E63',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#75A658',
     alignSelf: 'flex-start',
     borderBottomLeftRadius: 0,
   },
